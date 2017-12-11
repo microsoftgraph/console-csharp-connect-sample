@@ -31,7 +31,7 @@ This sample requires the following:
 
 2. Select **Add an app**, and enter a friendly name for the application (such as **Console App for Microsoft Graph**). Click **Create**.
 
-3. ON the application registration page, select **Add Platform**. Select the **Native App** tile and save your change.
+3. On the application registration page, select **Add Platform**. Select the **Native App** tile and save your change.
 
 4. Open the solution and then the Constants.cs file in Visual Studio. 
 
