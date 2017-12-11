@@ -1,4 +1,4 @@
-# Microsoft Graph Console Connect Sample
+# Microsoft Graph C# Console Connect Sample
 
 ## Table of contents
 
