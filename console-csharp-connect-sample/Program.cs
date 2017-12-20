@@ -1,17 +1,11 @@
 ﻿//Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
 //See LICENSE in the project root for license information.
 extern alias GraphBetaModels;
-
+using Microsoft.Graph;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Graph;
-using Microsoft.Identity;
 using System.Net.Http;
-using Newtonsoft.Json.Linq;
 
 namespace console_csharp_connect_sample
 {
