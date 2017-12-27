@@ -1,5 +1,6 @@
 ﻿//Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
 //See LICENSE in the project root for license information.
+extern alias GraphBetaModels;
 using Microsoft.Graph;
 using Newtonsoft.Json.Linq;
 using System;
@@ -38,11 +39,46 @@ namespace console_csharp_connect_sample
                         Console.WriteLine();
 
                         // TODO: Enter code to access trending information.
-     
+                        // 1. Create request message with the URL for the trending API.
+                        string requestUrl = "https://graph.microsoft.com/beta/me/insights/trending";
+                        HttpRequestMessage hrm = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+
+                        // 2. Authenticate (add access token) our HttpRequestMessage
+                        graphClient.AuthenticationProvider.AuthenticateRequestAsync(hrm).GetAwaiter().GetResult();
+
+                        // 3. Send the request and get the response.
+                        HttpResponseMessage response = graphClient.HttpProvider.SendAsync(hrm).Result;
+
+                        // 4. Get the trending response.
+                        var content = response.Content.ReadAsStringAsync().Result;
+                        JObject trendingResponseBody = JObject.Parse(content);
+
+                        // 4. Get the array of trending objects from the 'value' key.
+                        JToken arrayOfTrendingObjects = trendingResponseBody.GetValue("value");
+
+                        // 5. Get a list of Trending objects.
+                        List<GraphBetaModels.Microsoft.Graph.Trending> trendingList = new List<GraphBetaModels.Microsoft.Graph.Trending>();
+
+                        // 5. Deserialize each trending object.
+                        foreach (JToken t in arrayOfTrendingObjects.Children())
+                        {
+                            GraphBetaModels.Microsoft.Graph.Trending trendingObj = graphClient.HttpProvider
+                                                                                                .Serializer
+                                                                                                .DeserializeObject<GraphBetaModels.Microsoft.Graph.Trending>(t.ToString());
+                            trendingList.Add(trendingObj);
+                        }
+
+                        // 6. Access the contents of the trending objects from the model.
+                        foreach (GraphBetaModels.Microsoft.Graph.Trending trendingItem in trendingList)
+                        {
+                            Console.WriteLine($"Trending id: {trendingItem.Id}");
+                            Console.WriteLine($"Trending resource title: {trendingItem.ResourceVisualization.Title}");
+                            Console.WriteLine($"Trending resource preview text: {trendingItem.ResourceVisualization.PreviewText}");
+                            Console.WriteLine($"Trending resource web url: {trendingItem.ResourceReference.WebUrl}\n");
+                        }
+
                         Console.WriteLine("\n\nPress any key to continue.");
                         Console.ReadKey();
-
-
                     }
                     else
                     {

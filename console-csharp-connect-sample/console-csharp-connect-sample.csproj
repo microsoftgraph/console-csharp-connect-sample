@@ -35,6 +35,11 @@
     <Reference Include="Microsoft.Graph, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Graph.1.7.0\lib\net45\Microsoft.Graph.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Graph.Beta.Models, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\msgraph-sdk-dotnet-beta\msgraph-sdk-dotnet-beta-models\bin\Debug\net45\Microsoft.Graph.Beta.Models.dll</HintPath>
+      <Aliases>GraphBetaModels</Aliases>
+    </Reference>
     <Reference Include="Microsoft.Graph.Core, Version=1.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Graph.Core.1.7.0\lib\net45\Microsoft.Graph.Core.dll</HintPath>
     </Reference>

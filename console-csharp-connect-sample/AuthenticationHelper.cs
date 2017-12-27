@@ -19,7 +19,7 @@ namespace console_csharp_connect_sample
         // The Group.Read.All permission is an admin-only scope, so authorization will fail if you 
         // want to sign in with a non-admin account. Remove that permission and comment out the group operations in 
         // the UserMode() method if you want to run this sample with a non-admin account.
-        public static string[] Scopes = { "User.Read","Mail.Send","Files.ReadWrite"};
+        public static string[] Scopes = { "User.Read","Mail.Send","Files.ReadWrite", "Sites.Read.All", "Sites.ReadWrite.All" };
 
         public static PublicClientApplication IdentityClientApp = new PublicClientApplication(clientId);
         public static string UserToken = null;
