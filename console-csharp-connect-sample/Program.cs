@@ -1,13 +1,11 @@
 ﻿//Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
 //See LICENSE in the project root for license information.
+extern alias GraphBetaModels;
+using Microsoft.Graph;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Graph;
-using Microsoft.Identity;
+using System.Net.Http;
 
 namespace console_csharp_connect_sample
 {
@@ -30,26 +28,57 @@ namespace console_csharp_connect_sample
                     graphClient = AuthenticationHelper.GetAuthenticatedClient();
                     if (graphClient != null)
                     {
-                        bool sendMail = true;
-                        while (sendMail)
+                        var user = graphClient.Me.Request().GetAsync().Result;
+                        string userId = user.Id;
+                        string mailAddress = user.UserPrincipalName;
+                        string displayName = user.DisplayName;
+                        
+                        Console.WriteLine("Hello, " + displayName + ". Would you like to get your trending information?");
+                        Console.WriteLine("Press any key to continue.");
+                        Console.ReadKey();
+                        Console.WriteLine();
+
+                        // TODO: Enter code to access trending information.
+                        // 1. Create request message with the URL for the trending API.
+                        string requestUrl = "https://graph.microsoft.com/beta/me/insights/trending";
+                        HttpRequestMessage hrm = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+
+                        // 2. Authenticate (add access token) our HttpRequestMessage
+                        graphClient.AuthenticationProvider.AuthenticateRequestAsync(hrm).GetAwaiter().GetResult();
+
+                        // 3. Send the request and get the response.
+                        HttpResponseMessage response = graphClient.HttpProvider.SendAsync(hrm).Result;
+
+                        // 4. Get the trending response.
+                        var content = response.Content.ReadAsStringAsync().Result;
+                        JObject trendingResponseBody = JObject.Parse(content);
+
+                        // 4. Get the array of trending objects from the 'value' key.
+                        JToken arrayOfTrendingObjects = trendingResponseBody.GetValue("value");
+
+                        // 5. Get a list of Trending objects.
+                        List<GraphBetaModels.Microsoft.Graph.Trending> trendingList = new List<GraphBetaModels.Microsoft.Graph.Trending>();
+
+                        // 5. Deserialize each trending object.
+                        foreach (JToken t in arrayOfTrendingObjects.Children())
                         {
-                            var user = graphClient.Me.Request().GetAsync().Result;
-                            string userId = user.Id;
-                            string mailAddress = user.UserPrincipalName;
-                            string displayName = user.DisplayName;
-
-                            Console.WriteLine("Hello, " + displayName + ". Would you like to send an email to yourself or someone else?");
-                            Console.WriteLine("Enter the address to which you'd like to send a message. If you enter nothing, the message will go to your address.");
-                            string userInputAddress = Console.ReadLine();
-                            string messageAddress = String.IsNullOrEmpty(userInputAddress) ? mailAddress : userInputAddress;
-
-                            MailHelper.ComposeAndSendMailAsync("Welcome to Microsoft Graph development with C# and the Microsoft Graph Connect sample", Constants.EmailContent, messageAddress);
-
-                            Console.WriteLine("\nEmail sent! \n Want to send another message? Type 'y' for yes and any other key to exit.");
-                            ConsoleKeyInfo userInputSendMail = Console.ReadKey();
-                            sendMail = (userInputSendMail.KeyChar == 'y') ? true : false;
-                            Console.WriteLine();
+                            GraphBetaModels.Microsoft.Graph.Trending trendingObj = graphClient.HttpProvider
+                                                                                                .Serializer
+                                                                                                .DeserializeObject<GraphBetaModels.Microsoft.Graph.Trending>(t.ToString());
+                            trendingList.Add(trendingObj);
                         }
+
+                        // 6. Access the contents of the trending objects from the model.
+                        foreach (GraphBetaModels.Microsoft.Graph.Trending trendingItem in trendingList)
+                        {
+                            Console.WriteLine($"Trending id: {trendingItem.Id}");
+                            Console.WriteLine($"Trending resource title: {trendingItem.ResourceVisualization.Title}");
+                            Console.WriteLine($"Trending resource preview text: {trendingItem.ResourceVisualization.PreviewText}");
+                            Console.WriteLine($"Trending resource web url: {trendingItem.ResourceReference.WebUrl}\n");
+                        }
+
+                        Console.WriteLine("\n\nPress any key to continue.");
+                        Console.ReadKey();
                     }
                     else
                     {
@@ -59,9 +88,6 @@ namespace console_csharp_connect_sample
                         Console.ReadKey();
                         return;
                     }
-
-
-
                 }
                 else
                 {
@@ -71,13 +97,11 @@ namespace console_csharp_connect_sample
                     Console.ReadKey();
                     return;
                 }
-
-
             }
             catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Sending an email failed with the following message: {0}", ex.Message);
+                Console.WriteLine("Getting your trending information failed with the following message: {0}", ex.Message);
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine("Error detail: {0}", ex.InnerException.Message);
@@ -86,15 +110,6 @@ namespace console_csharp_connect_sample
                 Console.ReadKey();
                 return;
             }
-
-
-
         }
-
-
-
-
     }
-
-
 }
