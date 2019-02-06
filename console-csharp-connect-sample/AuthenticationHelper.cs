@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
+using System.Collections.Generic;
 
 namespace console_csharp_connect_sample
 {
@@ -66,7 +67,10 @@ namespace console_csharp_connect_sample
             AuthenticationResult authResult;
             try
             {
-                authResult = await IdentityClientApp.AcquireTokenSilentAsync(Scopes, IdentityClientApp.Users.First());
+				IEnumerable<IAccount> accounts = await IdentityClientApp.GetAccountsAsync();
+				IAccount firstAccount = accounts.FirstOrDefault();
+
+                authResult = await IdentityClientApp.AcquireTokenSilentAsync(Scopes, firstAccount);
                 UserToken = authResult.AccessToken;
             }
 
