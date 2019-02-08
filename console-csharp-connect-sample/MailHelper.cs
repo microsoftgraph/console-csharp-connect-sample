@@ -8,20 +8,28 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using console_csharp_connect_sample.Helpers;
 using Microsoft.Graph;
 
 namespace console_csharp_connect_sample
 {
     class MailHelper
     {
-        /// <summary>
-        /// Compose and send a new email.
-        /// </summary>
-        /// <param name="subject">The subject line of the email.</param>
-        /// <param name="bodyContent">The body of the email.</param>
-        /// <param name="recipients">A semicolon-separated list of email addresses.</param>
-        /// <returns></returns>
-        public static void ComposeAndSendMailAsync(string subject,
+		private static GraphServiceClient _graphServiceClient = null;
+
+		public MailHelper(GraphServiceClient graphServiceClient)
+		{
+			_graphServiceClient = graphServiceClient;
+		}
+
+		/// <summary>
+		/// Compose and send a new email.
+		/// </summary>
+		/// <param name="subject">The subject line of the email.</param>
+		/// <param name="bodyContent">The body of the email.</param>
+		/// <param name="recipients">A semicolon-separated list of email addresses.</param>
+		/// <returns></returns>
+		public static void ComposeAndSendMailAsync(string subject,
                                                             string bodyContent,
                                                             string recipients)
         {
@@ -70,9 +78,9 @@ namespace console_csharp_connect_sample
 
             try
             {
-                var graphClient = AuthenticationHelper.GetAuthenticatedClient();
+               // var graphClient = authenticatedGraphClient.GetAuthenticatedGraphClient();
 
-                var email = new Message
+				var email = new Message
                 {
                     Body = new ItemBody
                     {
@@ -86,7 +94,7 @@ namespace console_csharp_connect_sample
 
                 try
                 {
-                    graphClient.Me.SendMail(email, true).Request().PostAsync();
+					_graphServiceClient.Me.SendMail(email, true).Request().PostAsync();
                 }
                 catch (ServiceException exception)
                 {
@@ -111,8 +119,8 @@ namespace console_csharp_connect_sample
 
             try
             {
-                var graphClient = AuthenticationHelper.GetAuthenticatedClient();
-                currentUserPhotoStream = graphClient.Me.Photo.Content.Request().GetAsync().Result;
+               // var graphClient = authenticatedGraphClient.GetAuthenticatedGraphClient();
+				currentUserPhotoStream = _graphServiceClient.Me.Photo.Content.Request().GetAsync().Result;
 
             }
 
@@ -133,9 +141,9 @@ namespace console_csharp_connect_sample
 
             try
             {
-                var graphClient = AuthenticationHelper.GetAuthenticatedClient();
-                MemoryStream fileStream = new MemoryStream(file);
-                uploadedFile = graphClient.Me.Drive.Root.ItemWithPath("me.png").Content.Request().PutAsync<DriveItem>(fileStream).Result;
+               // var graphClient = authenticatedGraphClient.GetAuthenticatedGraphClient();
+				MemoryStream fileStream = new MemoryStream(file);
+                uploadedFile = _graphServiceClient.Me.Drive.Root.ItemWithPath("me.png").Content.Request().PutAsync<DriveItem>(fileStream).Result;
 
             }
 
@@ -154,8 +162,8 @@ namespace console_csharp_connect_sample
 
             try
             {
-                var graphClient = AuthenticationHelper.GetAuthenticatedClient();
-                permission = graphClient.Me.Drive.Items[Id].CreateLink("view").Request().PostAsync().Result;
+               // var graphClient = authenticatedGraphClient.GetAuthenticatedGraphClient();
+				permission = _graphServiceClient.Me.Drive.Items[Id].CreateLink("view").Request().PostAsync().Result;
             }
 
             catch (ServiceException)
