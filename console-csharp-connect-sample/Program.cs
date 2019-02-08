@@ -29,9 +29,9 @@ namespace console_csharp_connect_sample
 				//*********************************************************************
 				// setup Microsoft Graph Client for user.
 				//*********************************************************************
-				if (!string.IsNullOrEmpty(Constants.ClientId) ||
-					!string.IsNullOrEmpty(Constants.Authority) ||
-					!string.IsNullOrEmpty(Constants.Scopes.ToString()))
+				if (!string.IsNullOrWhiteSpace(Constants.ClientId) &&
+					!string.IsNullOrWhiteSpace(Constants.Authority) &&
+					!string.IsNullOrWhiteSpace(Constants.Scopes.ToString()))
 				{
 					var graphClient = new GraphClient(Constants.ClientId, Constants.Authority, Constants.Scopes);
 
@@ -73,13 +73,11 @@ namespace console_csharp_connect_sample
 				else
 				{
 					Console.ForegroundColor = ConsoleColor.Red;
-					Console.WriteLine("You haven't configured a value for ClientId in Constants.cs. Please follow the Readme instructions for configuring this application.");
+					Console.WriteLine("You haven't configured a value for either 'ClientId' or 'Authority' or 'Scopes' in Constants.cs. \nPlease follow the Readme instructions for configuring this application.");
 					Console.ResetColor();
 					Console.ReadKey();
 					return;
 				}
-
-
 			}
 			catch (Exception ex)
 			{
