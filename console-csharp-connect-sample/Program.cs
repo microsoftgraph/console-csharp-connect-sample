@@ -35,7 +35,7 @@ namespace console_csharp_connect_sample
 				{
 					var graphClient = new GraphClient(Constants.ClientId, Constants.Authority, Constants.Scopes);
 
-					graphServiceClient = graphClient.GetGraphClient();
+					graphServiceClient = graphClient.GetGraphServiceClient();
 
 					if (graphServiceClient != null)
 					{

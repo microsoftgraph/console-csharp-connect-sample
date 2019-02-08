@@ -5,7 +5,7 @@ namespace console_csharp_connect_sample
 {
     internal class Constants
     {
-		public const string ClientId = "XXXXXXXXXXXXXXXXX"; // "ENTER_YOUR_CLIENT_ID";
+		public const string ClientId = "3506bee5-09b9-4f07-8259-56f19cbed24a"; // "ENTER_YOUR_CLIENT_ID";
 		public const string Authority = "https://login.microsoftonline.com/common"; // "ENTER_THE_SIGN_IN_AUTHORITY"
 		public static readonly string[] Scopes = { "User.Read", "Mail.Send", "Files.ReadWrite" }; // "EDIT PERMISSIONS"
 

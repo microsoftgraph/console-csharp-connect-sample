@@ -78,8 +78,6 @@ namespace console_csharp_connect_sample
 
             try
             {
-               // var graphClient = authenticatedGraphClient.GetAuthenticatedGraphClient();
-
 				var email = new Message
                 {
                     Body = new ItemBody
@@ -100,8 +98,6 @@ namespace console_csharp_connect_sample
                 {
                     throw new Exception("We could not send the message: " + exception.Error == null ? "No error message returned." : exception.Error.Message);
                 }
-
-
             }
 
             catch (Exception e)
@@ -119,11 +115,9 @@ namespace console_csharp_connect_sample
 
             try
             {
-               // var graphClient = authenticatedGraphClient.GetAuthenticatedGraphClient();
 				currentUserPhotoStream = _graphServiceClient.Me.Photo.Content.Request().GetAsync().Result;
 
             }
-
             // If the user account is MSA (not work or school), the service will throw an exception.
             catch (Exception)
             {
@@ -141,13 +135,10 @@ namespace console_csharp_connect_sample
 
             try
             {
-               // var graphClient = authenticatedGraphClient.GetAuthenticatedGraphClient();
 				MemoryStream fileStream = new MemoryStream(file);
                 uploadedFile = _graphServiceClient.Me.Drive.Root.ItemWithPath("me.png").Content.Request().PutAsync<DriveItem>(fileStream).Result;
 
             }
-
-
             catch (ServiceException)
             {
                 return null;
@@ -162,10 +153,8 @@ namespace console_csharp_connect_sample
 
             try
             {
-               // var graphClient = authenticatedGraphClient.GetAuthenticatedGraphClient();
 				permission = _graphServiceClient.Me.Drive.Items[Id].CreateLink("view").Request().PostAsync().Result;
             }
-
             catch (ServiceException)
             {
                 return null;

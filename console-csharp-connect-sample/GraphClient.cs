@@ -5,9 +5,13 @@ using console_csharp_connect_sample.Helpers;
 
 namespace console_csharp_connect_sample
 {
+	// This class holds the graph client data and 
+	// returns a fully constructed instance of the 
+	// GraphServiceClient with the client data to be 
+	// used when authenticating requests to the Graph API
 	public class GraphClient
 	{
-		private GraphServiceClient Client { get; set; }
+		private GraphServiceClient ServiceClient;
 		private string ClientId { get; set; }
 		private string Authority { get; set; }
 		private string[] Scopes { get; set; }
@@ -19,11 +23,11 @@ namespace console_csharp_connect_sample
 			Scopes = scopes;			
 		}
 				
-		public GraphServiceClient GetGraphClient()
+		public GraphServiceClient GetGraphServiceClient()
 		{		
 			var authenticationProvider = CreateAuthorizationProvider();
-			Client = new GraphServiceClient(authenticationProvider);
-			return Client;
+			ServiceClient = new GraphServiceClient(authenticationProvider);
+			return ServiceClient;
 		}
 		
 		private IAuthenticationProvider CreateAuthorizationProvider()
