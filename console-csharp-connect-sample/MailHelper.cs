@@ -34,13 +34,15 @@ namespace console_csharp_connect_sample
                                                             string recipients)
         {
 
-            // Get current user photo
-            Stream photoStream = GetCurrentUserPhotoStreamAsync();
+			// Get current user photo
+			Task<Stream> photoStreamTask = GetCurrentUserPhotoStreamAsync();
+			photoStreamTask.Wait();
 
+			Stream photoStream = photoStreamTask.Result;
 
-            // If the user doesn't have a photo, or if the user account is MSA, we use a default photo
+			// If the user doesn't have a photo, or if the user account is MSA, we use a default photo
 
-            if (photoStream == null)
+			if (photoStream == null)
             {
                 photoStream = new FileStream("test.jpg", FileMode.Open);
                 
@@ -51,9 +53,12 @@ namespace console_csharp_connect_sample
             photoStream.CopyTo(photoStreamMS);
             photoStream.Close();
 
-            DriveItem photoFile = UploadFileToOneDriveAsync(photoStreamMS.ToArray());
+			Task<DriveItem> photoFileTask = UploadFileToOneDriveAsync(photoStreamMS.ToArray());
+			photoFileTask.Wait();
 
-            MessageAttachmentsCollectionPage attachments = new MessageAttachmentsCollectionPage();
+			DriveItem photoFile = photoFileTask.Result;
+
+			MessageAttachmentsCollectionPage attachments = new MessageAttachmentsCollectionPage();
             attachments.Add(new FileAttachment
             {
                 ODataType = "#microsoft.graph.fileAttachment",
@@ -62,9 +67,13 @@ namespace console_csharp_connect_sample
                 Name = "me.png"
             });
 
-            // Get the sharing link and insert it into the message body.
-            Permission sharingLink = GetSharingLinkAsync(photoFile.Id);
-            string bodyContentWithSharingLink = String.Format(bodyContent, sharingLink.Link.WebUrl);
+			// Get the sharing link and insert it into the message body.
+			Task<Permission> sharingLinkTask = GetSharingLinkAsync(photoFile.Id);
+			sharingLinkTask.Wait();
+
+			Permission sharingLink = sharingLinkTask.Result;
+
+			string bodyContentWithSharingLink = String.Format(bodyContent, sharingLink.Link.WebUrl);
 
             // Prepare the recipient list
             string[] splitter = { ";" };
@@ -109,13 +118,13 @@ namespace console_csharp_connect_sample
 
         // Gets the stream content of the signed-in user's photo. 
         // This snippet doesn't work with consumer accounts.
-        public static Stream GetCurrentUserPhotoStreamAsync()
+        public static async Task<Stream> GetCurrentUserPhotoStreamAsync()
         {
             Stream currentUserPhotoStream = null;
 
             try
             {
-				currentUserPhotoStream = _graphServiceClient.Me.Photo.Content.Request().GetAsync().Result;
+				currentUserPhotoStream = await _graphServiceClient.Me.Photo.Content.Request().GetAsync();
 
             }
             // If the user account is MSA (not work or school), the service will throw an exception.
@@ -129,14 +138,14 @@ namespace console_csharp_connect_sample
         }
 
         // Uploads the specified file to the user's root OneDrive directory.
-        public static DriveItem UploadFileToOneDriveAsync(byte[] file)
+        public static async Task<DriveItem> UploadFileToOneDriveAsync(byte[] file)
         {
             DriveItem uploadedFile = null;
 
             try
             {
 				MemoryStream fileStream = new MemoryStream(file);
-                uploadedFile = _graphServiceClient.Me.Drive.Root.ItemWithPath("me.png").Content.Request().PutAsync<DriveItem>(fileStream).Result;
+                uploadedFile = await _graphServiceClient.Me.Drive.Root.ItemWithPath("me.png").Content.Request().PutAsync<DriveItem>(fileStream);
 
             }
             catch (ServiceException)
@@ -147,13 +156,13 @@ namespace console_csharp_connect_sample
             return uploadedFile;
         }
 
-        public static Permission GetSharingLinkAsync(string Id)
+        public static async Task<Permission> GetSharingLinkAsync(string Id)
         {
             Permission permission = null;
 
             try
             {
-				permission = _graphServiceClient.Me.Drive.Items[Id].CreateLink("view").Request().PostAsync().Result;
+				permission = await _graphServiceClient.Me.Drive.Items[Id].CreateLink("view").Request().PostAsync();
             }
             catch (ServiceException)
             {

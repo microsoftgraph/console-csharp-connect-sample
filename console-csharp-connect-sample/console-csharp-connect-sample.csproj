@@ -110,7 +110,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Helpers\AuthHandler.cs" />
-    <Compile Include="GraphClient.cs" />
+    <Compile Include="GraphClientFactory.cs" />
     <Compile Include="Helpers\MsalAuthenticationProvider.cs" />
     <Compile Include="MailHelper.cs" />
     <Compile Include="Program.cs" />

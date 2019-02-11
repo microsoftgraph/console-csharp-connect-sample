@@ -1,23 +1,11 @@
 ﻿//Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
 //See LICENSE in the project root for license information.
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using console_csharp_connect_sample.Helpers;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Graph;
-using Microsoft.Identity;
-using Microsoft.Identity.Client;
 
 namespace console_csharp_connect_sample
 {
-    class Program
-    {
-		private static GraphServiceClient graphServiceClient;
-		
+	class Program
+    {			
 
 		static void Main(string[] args)
         {	
@@ -33,9 +21,7 @@ namespace console_csharp_connect_sample
 					!string.IsNullOrWhiteSpace(Constants.Authority) &&
 					!string.IsNullOrWhiteSpace(Constants.Scopes.ToString()))
 				{
-					var graphClient = new GraphClient(Constants.ClientId, Constants.Authority, Constants.Scopes);
-
-					graphServiceClient = graphClient.GetGraphServiceClient();
+					var graphServiceClient = GraphClientFactory.GetGraphServiceClient(Constants.ClientId, Constants.Authority, Constants.Scopes);
 
 					if (graphServiceClient != null)
 					{

@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Identity.Client;
 using Microsoft.Graph;
+using System.Linq;
 
 namespace console_csharp_connect_sample.Helpers
 {
@@ -15,9 +16,7 @@ namespace console_csharp_connect_sample.Helpers
 	{		
 		private PublicClientApplication _clientApplication;
 		private  string[] _scopes;
-	    private string _userToken = null;
-		private DateTimeOffset _expiration;
-
+	    
 		public MsalAuthenticationProvider(PublicClientApplication clientApplication, string[] scopes)
 		{
 			_clientApplication = clientApplication;
@@ -37,15 +36,27 @@ namespace console_csharp_connect_sample.Helpers
 		/// Acquire Token for user
 		/// </summary>
 		public async Task<string> GetTokenAsync()
-		{		
-			if (_userToken == null || _expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
+		{
+			AuthenticationResult authResult = null;
+			var accounts = await _clientApplication.GetAccountsAsync();
+
+			try
 			{
-				AuthenticationResult authResult = null;
-				authResult = await _clientApplication.AcquireTokenAsync(_scopes);
-				_userToken = authResult.AccessToken;
-				_expiration = authResult.ExpiresOn;
+				authResult = await _clientApplication.AcquireTokenSilentAsync(_scopes, accounts.FirstOrDefault());
 			}
-			return _userToken;
+			catch (MsalUiRequiredException)
+			{
+				try
+				{
+					authResult = await _clientApplication.AcquireTokenAsync(_scopes);
+				}
+				catch (MsalException ex)
+				{
+					throw new MsalException(ex.ErrorCode, ex.Message);
+				}
+			}
+
+			return authResult.AccessToken;
 		}
 
 	}
