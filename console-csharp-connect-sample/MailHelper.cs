@@ -29,7 +29,7 @@ namespace console_csharp_connect_sample
 		/// <param name="bodyContent">The body of the email.</param>
 		/// <param name="recipients">A semicolon-separated list of email addresses.</param>
 		/// <returns></returns>
-		public static void ComposeAndSendMailAsync(string subject,
+		public static async Task ComposeAndSendMailAsync(string subject,
                                                             string bodyContent,
                                                             string recipients)
         {
@@ -101,7 +101,7 @@ namespace console_csharp_connect_sample
 
                 try
                 {
-					_graphServiceClient.Me.SendMail(email, true).Request().PostAsync();
+					await _graphServiceClient.Me.SendMail(email, true).Request().PostAsync();
                 }
                 catch (ServiceException exception)
                 {

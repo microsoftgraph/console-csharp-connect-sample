@@ -1,6 +1,7 @@
 ﻿//Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
 //See LICENSE in the project root for license information.
 using System;
+using System.Threading.Tasks;
 
 namespace console_csharp_connect_sample
 {
@@ -39,7 +40,8 @@ namespace console_csharp_connect_sample
 							string messageAddress = String.IsNullOrEmpty(userInputAddress) ? mailAddress : userInputAddress;
 
 							var mailHelper = new MailHelper(graphServiceClient);
-							MailHelper.ComposeAndSendMailAsync("Welcome to Microsoft Graph development with C# and the Microsoft Graph Connect sample", Constants.EmailContent, messageAddress);
+							Task mailSendTask =  MailHelper.ComposeAndSendMailAsync("Welcome to Microsoft Graph development with C# and the Microsoft Graph Connect sample", Constants.EmailContent, messageAddress);
+							mailSendTask.Wait();
 
 							Console.WriteLine("\nEmail sent! \n Want to send another message? Type 'y' for yes and any other key to exit.");
 							ConsoleKeyInfo userInputSendMail = Console.ReadKey();
