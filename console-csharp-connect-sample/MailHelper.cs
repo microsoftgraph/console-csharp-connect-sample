@@ -44,8 +44,7 @@ namespace console_csharp_connect_sample
 
 			if (photoStream == null)
             {
-                photoStream = new FileStream("test.jpg", FileMode.Open);
-                
+                photoStream = new FileStream("test.jpg", FileMode.Open);                
             }
 
             MemoryStream photoStreamMS = new MemoryStream();
@@ -146,7 +145,6 @@ namespace console_csharp_connect_sample
             {
 				MemoryStream fileStream = new MemoryStream(file);
                 uploadedFile = await _graphServiceClient.Me.Drive.Root.ItemWithPath("me.png").Content.Request().PutAsync<DriveItem>(fileStream);
-
             }
             catch (ServiceException)
             {

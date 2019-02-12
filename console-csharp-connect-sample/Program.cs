@@ -18,11 +18,23 @@ namespace console_csharp_connect_sample
 				//*********************************************************************
 				// setup Microsoft Graph Client for user.
 				//*********************************************************************
-				if (!string.IsNullOrWhiteSpace(Constants.ClientId) &&
-					!string.IsNullOrWhiteSpace(Constants.Authority) &&
-					!string.IsNullOrWhiteSpace(Constants.Scopes.ToString()))
+				AuthenticationConfig config = AuthenticationConfig.ReadFromJsonFile("appsettings.json");
+
+				if (string.IsNullOrWhiteSpace(config.ClientId) ||
+					string.IsNullOrWhiteSpace(config.TenantId) ||
+					string.IsNullOrEmpty(config.Instance) ||
+					string.IsNullOrWhiteSpace(config.Scopes.ToString()))
 				{
-					var graphServiceClient = GraphClientFactory.GetGraphServiceClient(Constants.ClientId, Constants.Authority, Constants.Scopes);
+					Console.ForegroundColor = ConsoleColor.Red;
+					Console.WriteLine("You haven't configured a value for either 'ClientId' or 'TenantId' or 'Instance' or 'Scopes' in the config file. " +
+									  "\nPlease follow the Readme instructions for configuring this application.");
+					Console.ResetColor();
+					Console.ReadKey();
+					return;					
+				}
+				else
+				{
+					var graphServiceClient = GraphClientFactory.GetGraphServiceClient(config.ClientId, config.Authority, config.Scopes);
 
 					if (graphServiceClient != null)
 					{
@@ -40,7 +52,7 @@ namespace console_csharp_connect_sample
 							string messageAddress = String.IsNullOrEmpty(userInputAddress) ? mailAddress : userInputAddress;
 
 							var mailHelper = new MailHelper(graphServiceClient);
-							Task mailSendTask =  MailHelper.ComposeAndSendMailAsync("Welcome to Microsoft Graph development with C# and the Microsoft Graph Connect sample", Constants.EmailContent, messageAddress);
+							Task mailSendTask = MailHelper.ComposeAndSendMailAsync("Welcome to Microsoft Graph development with C# and the Microsoft Graph Connect sample", Constants.EmailContent, messageAddress);
 							mailSendTask.Wait();
 
 							Console.WriteLine("\nEmail sent! \n Want to send another message? Type 'y' for yes and any other key to exit.");
@@ -57,14 +69,6 @@ namespace console_csharp_connect_sample
 						Console.ReadKey();
 						return;
 					}
-				}
-				else
-				{
-					Console.ForegroundColor = ConsoleColor.Red;
-					Console.WriteLine("You haven't configured a value for either 'ClientId' or 'Authority' or 'Scopes' in Constants.cs. \nPlease follow the Readme instructions for configuring this application.");
-					Console.ResetColor();
-					Console.ReadKey();
-					return;
 				}
 			}
 			catch (Exception ex)

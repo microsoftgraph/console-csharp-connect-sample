@@ -2,6 +2,7 @@
 using Microsoft.Identity.Client;
 using System.Linq;
 using console_csharp_connect_sample.Helpers;
+using System.Collections.Generic;
 
 namespace console_csharp_connect_sample
 {
@@ -9,17 +10,14 @@ namespace console_csharp_connect_sample
 	// instance of the GraphServiceClient with the client 
 	// data to be used when authenticating requests to the Graph API
 	public static class GraphClientFactory
-	{
-		private static GraphServiceClient _serviceClient;
-
-		public static GraphServiceClient GetGraphServiceClient(string clientId, string authority, string[] scopes)
+	{		
+		public static GraphServiceClient GetGraphServiceClient(string clientId, string authority, IEnumerable<string> scopes)
 		{		
 			var authenticationProvider = CreateAuthorizationProvider(clientId, authority, scopes);
-			_serviceClient = new GraphServiceClient(authenticationProvider);
-			return _serviceClient;
+			return new GraphServiceClient(authenticationProvider);
 		}
 		
-		private static IAuthenticationProvider CreateAuthorizationProvider(string clientId, string authority, string[] scopes)
+		private static IAuthenticationProvider CreateAuthorizationProvider(string clientId, string authority, IEnumerable<string> scopes)
 		{
 			var clientApplication = new PublicClientApplication(clientId, authority);
 			return new MsalAuthenticationProvider(clientApplication, scopes.ToArray());		
