@@ -62,7 +62,7 @@ namespace console_csharp_connect_sample
 			catch(ArgumentNullException ex)
 			{
 				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine(ex.Message);
+				Console.WriteLine(ex.Message + "\nPlease follow the Readme instructions for configuring this application.");
 				Console.ResetColor();
 				Console.ReadKey();
 				return;
