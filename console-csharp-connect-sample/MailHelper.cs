@@ -52,8 +52,6 @@ namespace console_csharp_connect_sample
 
 			DriveItem photoFile = await UploadFileToOneDriveAsync(photoStreamMS.ToArray());
 
-			
-
 			MessageAttachmentsCollectionPage attachments = new MessageAttachmentsCollectionPage();
 			attachments.Add(new FileAttachment
 			{
@@ -64,10 +62,7 @@ namespace console_csharp_connect_sample
 			});
 
 			// Get the sharing link and insert it into the message body.
-			Task<Permission> sharingLinkTask = GetSharingLinkAsync(photoFile.Id);
-			sharingLinkTask.Wait();
-
-			Permission sharingLink = sharingLinkTask.Result;
+			Permission sharingLink = await GetSharingLinkAsync(photoFile.Id); ;
 
 			string bodyContentWithSharingLink = String.Format(bodyContent, sharingLink.Link.WebUrl);
 
