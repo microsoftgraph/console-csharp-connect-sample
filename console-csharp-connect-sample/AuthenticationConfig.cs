@@ -25,14 +25,25 @@ namespace console_csharp_connect_sample
 
 		public static AuthenticationConfig ReadFromJsonFile(string path)
 		{
-			IConfigurationRoot configuration;
+			if (string.IsNullOrEmpty(path))
+			{
+				throw new ArgumentException("Configuration file directory path not defined.");
+			}
+			try
+			{
+				IConfigurationRoot configuration;
 
-			var builder = new ConfigurationBuilder()
-			 .SetBasePath(Directory.GetCurrentDirectory())
-			.AddJsonFile(path);
+				var builder = new ConfigurationBuilder()
+				 .SetBasePath(Directory.GetCurrentDirectory())
+				.AddJsonFile(path);
 
-			configuration = builder.Build();
-			return configuration.Get<AuthenticationConfig>();
+				configuration = builder.Build();
+				return configuration.Get<AuthenticationConfig>();
+			}
+			catch (FileNotFoundException ex)
+			{
+				throw new FileNotFoundException(ex.Message);
+			}			
 		}
 	}
 }

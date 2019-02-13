@@ -1,6 +1,7 @@
 ﻿//Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
 //See LICENSE in the project root for license information.
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace console_csharp_connect_sample
@@ -70,6 +71,16 @@ namespace console_csharp_connect_sample
 						return;
 					}
 				}
+			}
+			catch(FileNotFoundException)
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine("The configuration file 'appsettings.json' was not found. " +
+								  "Rename the file 'appsettings.json.example' in the solutions folder to 'appsettings.json'." +
+								  "\nPlease follow the Readme instructions for configuring this application.");
+				Console.ResetColor();
+				Console.ReadKey();
+				return;
 			}
 			catch (Exception ex)
 			{
