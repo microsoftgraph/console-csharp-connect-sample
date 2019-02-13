@@ -18,7 +18,7 @@ namespace console_csharp_connect_sample.Helpers
 			_authenticationProvider = authenticationProvider;
 		}
 
-		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+		protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken = default)
 		{
 			await _authenticationProvider.AuthenticateRequestAsync(request);
 			return await base.SendAsync(request, cancellationToken);

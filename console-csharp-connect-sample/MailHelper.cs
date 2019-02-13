@@ -13,8 +13,8 @@ using Microsoft.Graph;
 
 namespace console_csharp_connect_sample
 {
-    class MailHelper
-    {
+	class MailHelper
+	{
 		private static GraphServiceClient _graphServiceClient = null;
 
 		public MailHelper(GraphServiceClient graphServiceClient)
@@ -30,41 +30,38 @@ namespace console_csharp_connect_sample
 		/// <param name="recipients">A semicolon-separated list of email addresses.</param>
 		/// <returns></returns>
 		public static async Task ComposeAndSendMailAsync(string subject,
-                                                            string bodyContent,
-                                                            string recipients)
-        {
+															string bodyContent,
+															string recipients)
+		{
 
 			// Get current user photo
-			Task<Stream> photoStreamTask = GetCurrentUserPhotoStreamAsync();
-			photoStreamTask.Wait();
+			Stream photoStream = await GetCurrentUserPhotoStreamAsync();
 
-			Stream photoStream = photoStreamTask.Result;
 
 			// If the user doesn't have a photo, or if the user account is MSA, we use a default photo
 
 			if (photoStream == null)
-            {
-                photoStream = new FileStream("test.jpg", FileMode.Open);                
-            }
+			{
+				photoStream = new FileStream("test.jpg", FileMode.Open);
+			}
 
-            MemoryStream photoStreamMS = new MemoryStream();
-            // Copy stream to MemoryStream object so that it can be converted to byte array.
-            photoStream.CopyTo(photoStreamMS);
-            photoStream.Close();
+			MemoryStream photoStreamMS = new MemoryStream();
+			// Copy stream to MemoryStream object so that it can be converted to byte array.
+			await photoStream.CopyToAsync(photoStreamMS);
+			photoStream.Close();
 
-			Task<DriveItem> photoFileTask = UploadFileToOneDriveAsync(photoStreamMS.ToArray());
-			photoFileTask.Wait();
+			DriveItem photoFile = await UploadFileToOneDriveAsync(photoStreamMS.ToArray());
 
-			DriveItem photoFile = photoFileTask.Result;
+			
 
 			MessageAttachmentsCollectionPage attachments = new MessageAttachmentsCollectionPage();
-            attachments.Add(new FileAttachment
-            {
-                ODataType = "#microsoft.graph.fileAttachment",
-                ContentBytes = photoStreamMS.ToArray(),
-                ContentType = "image/png",
-                Name = "me.png"
-            });
+			attachments.Add(new FileAttachment
+			{
+				ODataType = "#microsoft.graph.fileAttachment",
+				ContentBytes = photoStreamMS.ToArray(),
+				ContentType = "image/png",
+				Name = "me.png"
+			});
 
 			// Get the sharing link and insert it into the message body.
 			Task<Permission> sharingLinkTask = GetSharingLinkAsync(photoFile.Id);
@@ -74,100 +71,100 @@ namespace console_csharp_connect_sample
 
 			string bodyContentWithSharingLink = String.Format(bodyContent, sharingLink.Link.WebUrl);
 
-            // Prepare the recipient list
-            string[] splitter = { ";" };
-            var splitRecipientsString = recipients.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
-            List<Recipient> recipientList = new List<Recipient>();
+			// Prepare the recipient list
+			string[] splitter = { ";" };
+			var splitRecipientsString = recipients.Split(splitter, StringSplitOptions.RemoveEmptyEntries);
+			List<Recipient> recipientList = new List<Recipient>();
 
-            foreach (string recipient in splitRecipientsString)
-            {
-                recipientList.Add(new Recipient { EmailAddress = new EmailAddress { Address = recipient.Trim() } });
-            }
+			foreach (string recipient in splitRecipientsString)
+			{
+				recipientList.Add(new Recipient { EmailAddress = new EmailAddress { Address = recipient.Trim() } });
+			}
 
-            try
-            {
+			try
+			{
 				var email = new Message
-                {
-                    Body = new ItemBody
-                    {
-                        Content = bodyContentWithSharingLink,
-                        ContentType = BodyType.Html,
-                    },
-                    Subject = subject,
-                    ToRecipients = recipientList,
-                    Attachments = attachments
-                };
+				{
+					Body = new ItemBody
+					{
+						Content = bodyContentWithSharingLink,
+						ContentType = BodyType.Html,
+					},
+					Subject = subject,
+					ToRecipients = recipientList,
+					Attachments = attachments
+				};
 
-                try
-                {
+				try
+				{
 					await _graphServiceClient.Me.SendMail(email, true).Request().PostAsync();
-                }
-                catch (ServiceException exception)
-                {
-                    throw new Exception("We could not send the message: " + exception.Error == null ? "No error message returned." : exception.Error.Message);
-                }
-            }
+				}
+				catch (ServiceException exception)
+				{
+					throw new Exception("We could not send the message: " + exception.Error == null ? "No error message returned." : exception.Error.Message);
+				}
+			}
 
-            catch (Exception e)
-            {
-                throw new Exception("We could not send the message: " + e.Message);
-            }
-        }
+			catch (Exception e)
+			{
+				throw new Exception("We could not send the message: " + e.Message);
+			}
+		}
 
 
-        // Gets the stream content of the signed-in user's photo. 
-        // This snippet doesn't work with consumer accounts.
-        public static async Task<Stream> GetCurrentUserPhotoStreamAsync()
-        {
-            Stream currentUserPhotoStream = null;
+		// Gets the stream content of the signed-in user's photo. 
+		// This snippet doesn't work with consumer accounts.
+		public static async Task<Stream> GetCurrentUserPhotoStreamAsync()
+		{
+			Stream currentUserPhotoStream = null;
 
-            try
-            {
+			try
+			{
 				currentUserPhotoStream = await _graphServiceClient.Me.Photo.Content.Request().GetAsync();
 
-            }
-            // If the user account is MSA (not work or school), the service will throw an exception.
-            catch (Exception)
-            {
-                return null;
-            }
+			}
+			// If the user account is MSA (not work or school), the service will throw an exception.
+			catch (Exception)
+			{
+				return null;
+			}
 
-            return currentUserPhotoStream;
+			return currentUserPhotoStream;
 
-        }
+		}
 
-        // Uploads the specified file to the user's root OneDrive directory.
-        public static async Task<DriveItem> UploadFileToOneDriveAsync(byte[] file)
-        {
-            DriveItem uploadedFile = null;
+		// Uploads the specified file to the user's root OneDrive directory.
+		public static async Task<DriveItem> UploadFileToOneDriveAsync(byte[] file)
+		{
+			DriveItem uploadedFile = null;
 
-            try
-            {
+			try
+			{
 				MemoryStream fileStream = new MemoryStream(file);
-                uploadedFile = await _graphServiceClient.Me.Drive.Root.ItemWithPath("me.png").Content.Request().PutAsync<DriveItem>(fileStream);
-            }
-            catch (ServiceException)
-            {
-                return null;
-            }
+				uploadedFile = await _graphServiceClient.Me.Drive.Root.ItemWithPath("me.png").Content.Request().PutAsync<DriveItem>(fileStream);
+			}
+			catch (ServiceException)
+			{
+				return null;
+			}
 
-            return uploadedFile;
-        }
+			return uploadedFile;
+		}
 
-        public static async Task<Permission> GetSharingLinkAsync(string Id)
-        {
-            Permission permission = null;
+		public static async Task<Permission> GetSharingLinkAsync(string Id)
+		{
+			Permission permission = null;
 
-            try
-            {
+			try
+			{
 				permission = await _graphServiceClient.Me.Drive.Items[Id].CreateLink("view").Request().PostAsync();
-            }
-            catch (ServiceException)
-            {
-                return null;
-            }
+			}
+			catch (ServiceException)
+			{
+				return null;
+			}
 
-            return permission;
-        }
-    }
+			return permission;
+		}
+	}
 }

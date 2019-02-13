@@ -29,13 +29,13 @@ namespace console_csharp_connect_sample.Helpers
 		public async Task AuthenticateRequestAsync(HttpRequestMessage request)
 		{
 			var token = await GetTokenAsync();
-			request.Headers.Authorization = new AuthenticationHeaderValue("bearer", token);
+			request.Headers.Authorization = AuthenticationHeaderValue.Parse(token.CreateAuthorizationHeader());
 		}
 
 		/// <summary>
 		/// Acquire Token for user
 		/// </summary>
-		public async Task<string> GetTokenAsync()
+		public async Task<AuthenticationResult> GetTokenAsync()
 		{
 			AuthenticationResult authResult = null;
 			var accounts = await _clientApplication.GetAccountsAsync();
@@ -48,15 +48,15 @@ namespace console_csharp_connect_sample.Helpers
 			{
 				try
 				{
-					authResult = await _clientApplication.AcquireTokenAsync(_scopes);
+					authResult = await _clientApplication.AcquireTokenAsync(_scopes);					
 				}
-				catch (MsalException ex)
+				catch (MsalException)
 				{
-					throw new MsalException(ex.ErrorCode, ex.Message);
+					throw;
 				}
 			}
 
-			return authResult.AccessToken;
+			return authResult;
 		}
 
 	}

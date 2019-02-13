@@ -15,14 +15,14 @@
 	"ClientId": "YOUR_APP_ID_HERE",
 
 
-	// Delegated resource permissions
+	// Delegated resource access permissions
 	// To use the default permissions configured in the application registration in your Azure account portal,
 	// replace below with "https://graph.microsoft.com/.default"
-	"Scopes": {
-		"value1": "User.Read",
-		"value2": "Mail.Send",
-		"value3": "Files.ReadWrite"
-	},
+	"Scopes": [
+		"User.Read",
+		"Mail.Send",
+		"Files.ReadWrite"
+	],
 
 
 	// Azure AD Audience among:

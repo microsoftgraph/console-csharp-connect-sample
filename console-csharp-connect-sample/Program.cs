@@ -9,9 +9,8 @@ namespace console_csharp_connect_sample
 	class Program
     {			
 
-		static void Main(string[] args)
+		static async Task Main(string[] args)
         {	
-
 			Console.WriteLine("Welcome to the C# Console Connect Sample!\n");			
 
 			try
@@ -21,58 +20,54 @@ namespace console_csharp_connect_sample
 				//*********************************************************************
 				AuthenticationConfig config = AuthenticationConfig.ReadFromJsonFile("appsettings.json");
 
-				if (string.IsNullOrWhiteSpace(config.ClientId) ||
-					string.IsNullOrWhiteSpace(config.TenantId) ||
-					string.IsNullOrEmpty(config.Instance) ||
-					string.IsNullOrWhiteSpace(config.Scopes.ToString()))
+				// Check whether config. parameters have values
+				config.CheckParameters();
+
+				var graphServiceClient = GraphClientFactory.GetGraphServiceClient(config.ClientId, config.Authority, config.Scopes);
+
+				if (graphServiceClient != null)
 				{
-					Console.ForegroundColor = ConsoleColor.Red;
-					Console.WriteLine("You haven't configured a value for either 'ClientId' or 'TenantId' or 'Instance' or 'Scopes' in the config file. " +
-									  "\nPlease follow the Readme instructions for configuring this application.");
-					Console.ResetColor();
-					Console.ReadKey();
-					return;					
+					bool sendMail = true;
+					while (sendMail)
+					{
+						var user = await graphServiceClient.Me.Request().GetAsync();
+						string userId = user.Id;
+						string mailAddress = user.UserPrincipalName;
+						string displayName = user.DisplayName;
+
+						Console.WriteLine("Hello, " + displayName + ". Would you like to send an email to yourself or someone else?");
+						Console.WriteLine("Enter the address to which you'd like to send a message. If you enter nothing, the message will go to your address.");
+						string userInputAddress = Console.ReadLine();
+						string messageAddress = String.IsNullOrEmpty(userInputAddress) ? mailAddress : userInputAddress;
+
+						var mailHelper = new MailHelper(graphServiceClient);
+						await MailHelper.ComposeAndSendMailAsync("Welcome to Microsoft Graph development with C# and the Microsoft Graph Connect sample", Constants.EmailContent, messageAddress);
+
+
+						Console.WriteLine("\nEmail sent! \n Want to send another message? Type 'y' for yes and any other key to exit.");
+						ConsoleKeyInfo userInputSendMail = Console.ReadKey();
+						sendMail = (userInputSendMail.KeyChar == 'y') ? true : false;
+						Console.WriteLine();
+					}
 				}
 				else
 				{
-					var graphServiceClient = GraphClientFactory.GetGraphServiceClient(config.ClientId, config.Authority, config.Scopes);
-
-					if (graphServiceClient != null)
-					{
-						bool sendMail = true;
-						while (sendMail)
-						{
-							var user = graphServiceClient.Me.Request().GetAsync().Result;
-							string userId = user.Id;
-							string mailAddress = user.UserPrincipalName;
-							string displayName = user.DisplayName;
-
-							Console.WriteLine("Hello, " + displayName + ". Would you like to send an email to yourself or someone else?");
-							Console.WriteLine("Enter the address to which you'd like to send a message. If you enter nothing, the message will go to your address.");
-							string userInputAddress = Console.ReadLine();
-							string messageAddress = String.IsNullOrEmpty(userInputAddress) ? mailAddress : userInputAddress;
-
-							var mailHelper = new MailHelper(graphServiceClient);
-							Task mailSendTask = MailHelper.ComposeAndSendMailAsync("Welcome to Microsoft Graph development with C# and the Microsoft Graph Connect sample", Constants.EmailContent, messageAddress);
-							mailSendTask.Wait();
-
-							Console.WriteLine("\nEmail sent! \n Want to send another message? Type 'y' for yes and any other key to exit.");
-							ConsoleKeyInfo userInputSendMail = Console.ReadKey();
-							sendMail = (userInputSendMail.KeyChar == 'y') ? true : false;
-							Console.WriteLine();
-						}
-					}
-					else
-					{
-						Console.ForegroundColor = ConsoleColor.Red;
-						Console.WriteLine("We weren't able to create a GraphServiceClient for you. Please check the output for errors.");
-						Console.ResetColor();
-						Console.ReadKey();
-						return;
-					}
-				}
+					Console.ForegroundColor = ConsoleColor.Red;
+					Console.WriteLine("We weren't able to create a GraphServiceClient for you. Please check the output for errors.");
+					Console.ResetColor();
+					Console.ReadKey();
+					return;
+				}								
 			}
-			catch(FileNotFoundException)
+			catch(ArgumentNullException ex)
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine(ex.Message);
+				Console.ResetColor();
+				Console.ReadKey();
+				return;
+			}
+			catch (FileNotFoundException)
 			{
 				Console.ForegroundColor = ConsoleColor.Red;
 				Console.WriteLine("The configuration file 'appsettings.json' was not found. " +
@@ -94,6 +89,6 @@ namespace console_csharp_connect_sample
 				Console.ReadKey();
 				return;
 			}
-		}			
+		}	
 	}
 }
