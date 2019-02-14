@@ -32,14 +32,14 @@ namespace console_csharp_connect_sample.Helpers
 		/// </summary>
 		public async Task AuthenticateRequestAsync(HttpRequestMessage request)
 		{
-			var token = await GetTokenAsync();
-			request.Headers.Authorization = AuthenticationHeaderValue.Parse(token.CreateAuthorizationHeader());
+			var authentication = await GetAuthenticationAsync();
+			request.Headers.Authorization = AuthenticationHeaderValue.Parse(authentication.CreateAuthorizationHeader());
 		}
 
 		/// <summary>
 		/// Acquire Token for user
 		/// </summary>
-		public async Task<AuthenticationResult> GetTokenAsync()
+		public async Task<AuthenticationResult> GetAuthenticationAsync()
 		{
 			AuthenticationResult authResult = null;
 			var accounts = await _clientApplication.GetAccountsAsync();
