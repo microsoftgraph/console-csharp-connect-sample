@@ -1,14 +1,12 @@
-﻿//Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
-//See LICENSE in the project root for license information.
+﻿/*
+	Copyright (c) 2019 Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+	See LICENSE in the project root for license information.
+*/
+ 
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using console_csharp_connect_sample.Helpers;
 using Microsoft.Graph;
 
 namespace console_csharp_connect_sample

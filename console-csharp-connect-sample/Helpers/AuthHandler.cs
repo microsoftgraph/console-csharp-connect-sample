@@ -1,4 +1,9 @@
-﻿using Microsoft.Graph;
+﻿/*
+	Copyright (c) 2019 Microsoft Corporation. All rights reserved. Licensed under the MIT license.
+	See LICENSE in the project root for license information.
+*/
+
+using Microsoft.Graph;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
