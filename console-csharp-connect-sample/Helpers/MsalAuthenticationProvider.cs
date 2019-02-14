@@ -12,10 +12,12 @@ using System.Linq;
 
 namespace console_csharp_connect_sample.Helpers
 {
-	// This class encapsulates the details of getting a token from MSAL and exposes it via the 
-	// IAuthenticationProvider interface so that GraphServiceClient or AuthHandler can use it.
-	// A significantly enhanced version of this class will in the future be available from
-	// the GraphSDK team. It will support all the types of Client Application as defined by MSAL.
+	/// <summary>
+	/// This class encapsulates the details of getting a token from MSAL and exposes it via the 
+	/// IAuthenticationProvider interface so that GraphServiceClient or AuthHandler can use it.
+	/// </summary>
+	/// A significantly enhanced version of this class will in the future be available from
+	/// the GraphSDK team. It will support all the types of Client Application as defined by MSAL.
 	public class MsalAuthenticationProvider : IAuthenticationProvider
 	{		
 		private PublicClientApplication _clientApplication;

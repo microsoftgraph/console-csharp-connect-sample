@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 
 namespace console_csharp_connect_sample.Helpers
 {
-	// This class allows an implementation of IAuthenticationProvider to be inserted into the DelegatingHandler
-	// pipeline of an HttpClient instance. In future versions of GraphSDK, many cross-cutting concerns will
-	// be implemented as DelegatingHandlers. This AuthHandler will come in the box.
+	/// <summary>
+	/// This class allows an implementation of IAuthenticationProvider to be inserted into the DelegatingHandler
+	/// pipeline of an HttpClient instance. In future versions of GraphSDK, many cross-cutting concerns will
+	/// be implemented as DelegatingHandlers. This AuthHandler will come in the box.
+	/// </summary>
 	public class AuthHandler : DelegatingHandler
 	{
 		private IAuthenticationProvider _authenticationProvider;

@@ -11,9 +11,11 @@ using System.Collections.Generic;
 
 namespace console_csharp_connect_sample
 {
-	// This static class returns a fully constructed 
-	// instance of the GraphServiceClient with the client 
-	// data to be used when authenticating requests to the Graph API
+	/// <summary>
+	/// This static class returns a fully constructed 
+	/// instance of the GraphServiceClient with the client 
+	/// data to be used when authenticating requests to the Graph API
+	/// </summary> 
 	public static class GraphClientFactory
 	{		
 		public static GraphServiceClient GetGraphServiceClient(string clientId, string authority, IEnumerable<string> scopes)

@@ -31,7 +31,6 @@ namespace console_csharp_connect_sample
 															string bodyContent,
 															string recipients)
 		{
-
 			// Get current user photo
 			Stream photoStream = await GetCurrentUserPhotoStreamAsync();
 
@@ -104,9 +103,11 @@ namespace console_csharp_connect_sample
 			}
 		}
 
-
-		// Gets the stream content of the signed-in user's photo. 
-		// This snippet doesn't work with consumer accounts.
+		/// <summary>
+		/// Gets the stream content of the signed-in user's photo. 
+		/// This snippet doesn't work with consumer accounts.
+		/// </summary>
+		/// <returns>Photo Stream</returns>
 		public static async Task<Stream> GetCurrentUserPhotoStreamAsync()
 		{
 			Stream currentUserPhotoStream = null;
@@ -126,7 +127,11 @@ namespace console_csharp_connect_sample
 
 		}
 
-		// Uploads the specified file to the user's root OneDrive directory.
+		/// <summary>
+		/// Uploads the specified file to the user's root OneDrive directory.
+		/// </summary>
+		/// <param name="file"></param>
+		/// <returns>Path of uploaded OneDrive file</returns>
 		public static async Task<DriveItem> UploadFileToOneDriveAsync(byte[] file)
 		{
 			DriveItem uploadedFile = null;

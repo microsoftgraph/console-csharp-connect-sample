@@ -10,8 +10,7 @@ using System.Threading.Tasks;
 namespace console_csharp_connect_sample
 {
 	class Program
-    {			
-
+    {	
 		static async Task Main(string[] args)
         {	
 			Console.WriteLine("Welcome to the C# Console Connect Sample!\n");			
@@ -45,8 +44,7 @@ namespace console_csharp_connect_sample
 
 						var mailHelper = new MailHelper(graphServiceClient);
 						await MailHelper.ComposeAndSendMailAsync("Welcome to Microsoft Graph development with C# and the Microsoft Graph Connect sample", Constants.EmailContent, messageAddress);
-
-
+						
 						Console.WriteLine("\nEmail sent! \n Want to send another message? Type 'y' for yes and any other key to exit.");
 						ConsoleKeyInfo userInputSendMail = Console.ReadKey();
 						sendMail = (userInputSendMail.KeyChar == 'y') ? true : false;
