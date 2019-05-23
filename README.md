@@ -45,8 +45,6 @@ From your shell or command line:
    (using **Switch Directory**).
 3. In the left-hand navigation pane, select the **Azure Active Directory** service, and then select **App registrations**.
 
-![Image of App regiserations]  (OneDrive - Microsoft\App.jpeg)
-
 #### Register the client app
 1. In **App registrations ** page, select **Register an Application**.
 2. When the **Register an application page** appears, enter your application's registration information:
