@@ -4,6 +4,8 @@
 
 * [Introduction](#introduction)
 * [Prerequisites](#prerequisites)
+* [Register the application](#Register-the-application)
+* [Build and run the sample](#build-and-run-the-sample)
 * [Cloning or downloading this repository](#cloning-or-downloading-repo)
 * [Configure your Azure AD tenant](#configuring-Azure-AD-tenant )
 * [Configure the sample to use your Azure AD tenant](#configuring-sample-to-use-Azure-AD-tenant)
@@ -21,7 +23,7 @@ The sample uses the Microsoft Authentication Library (MSAL) for authentication.
 ## Prerequisites
 
 This sample requires the following:
-
+- [Visual Studio](https://www.visualstudio.com/en-us/downloads) 
 - [Visual Studio](https://www.visualstudio.com/en-us/downloads) with C# version 7 and above. 
 -  Either a [Microsoft](www.outlook.com) or [Office 365 for business account](https://msdn.microsoft.com/en-us/office/office365/howto/setup-development-environment#bk_Office365Account).
 - An Azure Active Directory (Azure AD) tenant. For more information on how to get an Azure AD tenant, please see [How to get an Azure AD tenant](https://azure.microsoft.com/en-us/documentation/articles/active-directory-howto-tenant/).
@@ -41,17 +43,19 @@ From your shell or command line:
 1. Sign in to the [Azure portal](https://portal.azure.com) using either a work or school account or a personal Microsoft account.
 2. If your account gives you access to more than one tenant, select your account in the top right corner, and set your portal session to the desired Azure AD tenant
    (using **Switch Directory**).
-3. In the left-hand navigation pane, select the **Azure Active Directory** service, and then select **App registrations (Preview)**.
+3. In the left-hand navigation pane, select the **Azure Active Directory** service, and then select **App registrations**.
 
 #### Register the client app
-1. In **App registrations (Preview)** page, select **Register an Application**.
+1. In **App registrations ** page, select **Register an Application**.
 2. When the **Register an application page** appears, enter your application's registration information:
    - In the **Name** section, enter a meaningful application name that will be displayed to users of the app, for example `Console App for Microsoft Graph`
    - In the **Supported account types** section, select **Accounts in any organizational directory and personal Microsoft accounts (e.g. Skype, Xbox, Outlook.com)**.
    - Select **Register** to create the application.
 3. On the app **Overview** page, find the **Application (client) ID** value and record it for later. You'll need it to configure the Visual Studio configuration file for this project.
 4. In the list of pages for the app, select **Authentication**
-   - In the *Suggested Redirect URIs for public clients(mobile,desktop)*, check the second box so that the app can work with the MSAL libs used in the application. (The box should contain the option *urn:ietf:wg:oauth:2.0:oob*). 
+   - In the *Suggested Redirect URIs for public clients(mobile,desktop)*, check the second box so that the app can work with the MSAL libs used in the application.
+   - In Redirect URIs select *public clients(mobile,desktop)* and insert the following in the box *urn:ietf:wg:oauth:2.0:oob* 
+   
 5. In the list of pages for the app, select **API permissions**
    - Click the **Add a permission** button and then,
    - Ensure that the **Microsoft APIs** tab is selected.
