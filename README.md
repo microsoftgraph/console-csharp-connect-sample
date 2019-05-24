@@ -53,9 +53,7 @@ From your shell or command line:
    - Select **Register** to create the application.
 3. On the app **Overview** page, find the **Application (client) ID** value and record it for later. You'll need it to configure the Visual Studio configuration file for this project.
 4. In the list of pages for the app, select **Authentication**
-   - In the *Suggested Redirect URIs for public clients(mobile,desktop)*, check the second box so that the app can work with the MSAL libs used in the application.
-   - In Redirect URIs select *public clients(mobile,desktop)* and insert the following in the box *urn:ietf:wg:oauth:2.0:oob* 
-   
+   - In the *Suggested Redirect URIs for public clients(mobile,desktop)*, check the second box so that the app can work with the MSAL libs used in the application. (The box should contain the option *urn:ietf:wg:oauth:2.0:oob*). 
 5. In the list of pages for the app, select **API permissions**
    - Click the **Add a permission** button and then,
    - Ensure that the **Microsoft APIs** tab is selected.
