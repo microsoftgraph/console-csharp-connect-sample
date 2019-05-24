@@ -55,9 +55,12 @@ From your shell or command line:
    - In the **Supported account types** section, select **Accounts in any organizational directory and personal Microsoft accounts (e.g. Skype, Xbox, Outlook.com)**.
    - Select **Register** to create the application.
 3. On the app **Overview** page, find the **Application (client) ID** value and record it for later. You'll need it to configure the Visual Studio configuration file for this project.
+![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/client.png)
+
 4. In the list of pages for the app, select **Authentication**
    - In the *Suggested Redirect URIs for public clients(mobile,desktop)*, check the second box so that the app can work with the MSAL libs used in the application.
    - In Redirect URIs select *public clients(mobile,desktop)* and insert the following in the box *urn:ietf:wg:oauth:2.0:oob* 
+    ![]( https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/redirect.png)
    
 5. In the list of pages for the app, select **API permissions**
    - Click the **Add a permission** button and then,
@@ -65,6 +68,8 @@ From your shell or command line:
    - In the *Commonly used Microsoft APIs* section, click on **Microsoft Graph**.
    - In the **Delegated permissions** section, ensure that the right permissions are checked: **User.Read**, **Mail.Send** and **Files.ReadWrite**. Use the search box if necessary.
    - Select the **Add permissions** button.
+   
+  ![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/permissions.png)
 
 <a name="configuring-sample-to-use-Azure-AD-tenant"></a>
 ### Step 3:  Configure the sample to use your Azure AD tenant
@@ -78,6 +83,7 @@ Open the solution in Visual Studio to configure the projects.
 1. In the *console-csharp-connect-sample* folder, rename the `appsettings.json.example` file to `appsettings.json`
 1. Open and edit the `appsettings.json` file to make the following change
     1. Find the line where `ClientId` is set as `YOUR_CLIENT_ID_HERE` and replace the existing value with the application (client) ID of the `Console App for Microsoft Graph` application copied from the Azure portal.
+ ![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/ID.png)
 
 <a name="build-and-run-sample"></a>
 ### Step 4: Build and run the sample 
