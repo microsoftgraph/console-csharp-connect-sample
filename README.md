@@ -46,6 +46,9 @@ From your shell or command line:
 3. In the left-hand navigation pane, select the **Azure Active Directory** service, and then select **App registrations**.
 
 #### Register the client app
+
+![Screenshot for App Registrations ](readme-images/appregistrations.PNG)
+
 1. In **App registrations ** page, select **Register an Application**.
 2. When the **Register an application page** appears, enter your application's registration information:
    - In the **Name** section, enter a meaningful application name that will be displayed to users of the app, for example `Console App for Microsoft Graph`
