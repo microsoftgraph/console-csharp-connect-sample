@@ -47,7 +47,7 @@ From your shell or command line:
 
 #### Register the client app
 
-![Screenshot for App Registrations ](readme-images/appregistrations.PNG)
+![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/appregistrations.png)
 
 1. In **App registrations ** page, select **Register an Application**.
 2. When the **Register an application page** appears, enter your application's registration information:
