@@ -60,7 +60,7 @@ From your shell or command line:
 
 4. In the list of pages for the app, select **Authentication**
 
-    -Use urn:ietf:wg:oauth:2.0:oob in the Redirect URI text box and select the Type as Public Client (mobile and desktop)
+    - Use *urn:ietf:wg:oauth:2.0:oob* in the **Redirect URI** text box and select the **Type** as Public Client (mobile and desktop)
 
 <a name="configuring-sample-to-use-Azure-AD-tenant"></a>
 ### Step 3:  Configure the sample to use your Azure AD tenant
