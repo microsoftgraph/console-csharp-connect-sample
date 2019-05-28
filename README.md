@@ -48,8 +48,7 @@ From your shell or command line:
 <a name="Register-the-application"></a>
 #### Register the client app
 
-![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/appregistrations.png)
-
+![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/registrations.png)
 1. In **App registrations** page, select **Register an Application**.
 2. When the **Register an application page** appears, enter your application's registration information:
    - In the **Name** section, enter a meaningful application name that will be displayed to users of the app, for example `Console App for Microsoft Graph`
@@ -61,6 +60,7 @@ From your shell or command line:
 4. In the list of pages for the app, select **Authentication**
 
     - Use *urn:ietf:wg:oauth:2.0:oob* in the **Redirect URI** text box and select the **Type** as Public Client (mobile and desktop)
+![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/redirect.png)
 
 <a name="configuring-sample-to-use-Azure-AD-tenant"></a>
 ### Step 3:  Configure the sample to use your Azure AD tenant
