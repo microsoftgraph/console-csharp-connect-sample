@@ -65,7 +65,7 @@ From your shell or command line:
 <a name="configuring-sample-to-use-Azure-AD-tenant"></a>
 ### Step 3:  Configure the sample to use your Azure AD tenant
 
-In the steps below, "ClientId" is the same as "Application ID" or "AppId".
+In the steps below, *Client ID* is the same as *Application ID* or *App ID*.
 
 Open the solution in Visual Studio to configure the projects.
 
