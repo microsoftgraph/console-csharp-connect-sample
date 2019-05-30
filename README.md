@@ -4,26 +4,24 @@
 
 * [Introduction](#introduction)
 * [Prerequisites](#prerequisites)
-* [Register the application](#Register-the-application)
 * [Cloning or downloading this repository](#cloning-or-downloading-repo)
 * [Configure your Azure AD tenant](#configuring-Azure-AD-tenant )
 * [Configure the sample to use your Azure AD tenant](#configuring-sample-to-use-Azure-AD-tenant)
-* [Build and run the sample](#build-and-run-the-sample)
+* [Build and run the sample](#build-and-run-sample)
 * [Questions and comments](#questions-and-comments)
 * [Contributing](#contributing)
 * [Additional resources](#additional-resources)
 
-<a name="introduction"></a>
 ## Introduction
 
 This sample shows how to connect a Windows console application to a Microsoft work or school (Azure Active Directory) or personal (Microsoft) account using the Microsoft Graph API. It uses the Microsoft Graph API to retrieve a user's profile picture, upload the picture to OneDrive, create a sharing link, and send an email that contains the photo as an attachment and the sharing link in its text. It uses the Microsoft Graph .NET Client Library to work with data returned by Microsoft Graph. The sample uses the Azure AD v2.0 endpoint, which enables users to sign in with either their personal or work or school Microsoft accounts.
 
 The sample uses the Microsoft Authentication Library (MSAL) for authentication.
 
-<a name="prerequisites"></a>
 ## Prerequisites
 
 This sample requires the following:
+
 - [Visual Studio](https://www.visualstudio.com/en-us/downloads) with C# version 7 and above. 
 -  Either a [Microsoft](www.outlook.com) or [Office 365 for business account](https://msdn.microsoft.com/en-us/office/office365/howto/setup-development-environment#bk_Office365Account).
 - An Azure Active Directory (Azure AD) tenant. For more information on how to get an Azure AD tenant, please see [How to get an Azure AD tenant](https://azure.microsoft.com/en-us/documentation/articles/active-directory-howto-tenant/).
@@ -43,24 +41,35 @@ From your shell or command line:
 1. Sign in to the [Azure portal](https://portal.azure.com) using either a work or school account or a personal Microsoft account.
 2. If your account gives you access to more than one tenant, select your account in the top right corner, and set your portal session to the desired Azure AD tenant
    (using **Switch Directory**).
-3. In the left-hand navigation pane, select the **Azure Active Directory** service, and then select **App registrations**.
+3. In the left-hand navigation pane, select the **Azure Active Directory** service, and then select **App registrations (Preview)**.
 
-<a name="Register-the-application"></a>
 #### Register the client app
+<<<<<<< HEAD
 
 ![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/registrations.png)
 1. In **App registrations** page, select **Register an Application**.
+=======
+1. In **App registrations (Preview)** page, select **Register an Application**.
+>>>>>>> parent of c529b59... updates
 2. When the **Register an application page** appears, enter your application's registration information:
    - In the **Name** section, enter a meaningful application name that will be displayed to users of the app, for example `Console App for Microsoft Graph`
    - In the **Supported account types** section, select **Accounts in any organizational directory and personal Microsoft accounts (e.g. Skype, Xbox, Outlook.com)**.
    - Select **Register** to create the application.
 3. On the app **Overview** page, find the **Application (client) ID** value and record it for later. You'll need it to configure the Visual Studio configuration file for this project.
-![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/client.png)
-
 4. In the list of pages for the app, select **Authentication**
+<<<<<<< HEAD
 
     - Use *urn:ietf:wg:oauth:2.0:oob* in the **Redirect URI** text box and select the **Type** as Public Client (mobile and desktop)
 ![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/redirect.png)
+=======
+   - In the *Suggested Redirect URIs for public clients(mobile,desktop)*, check the second box so that the app can work with the MSAL libs used in the application. (The box should contain the option *urn:ietf:wg:oauth:2.0:oob*). 
+5. In the list of pages for the app, select **API permissions**
+   - Click the **Add a permission** button and then,
+   - Ensure that the **Microsoft APIs** tab is selected.
+   - In the *Commonly used Microsoft APIs* section, click on **Microsoft Graph**.
+   - In the **Delegated permissions** section, ensure that the right permissions are checked: **User.Read**, **Mail.Send** and **Files.ReadWrite**. Use the search box if necessary.
+   - Select the **Add permissions** button.
+>>>>>>> parent of c529b59... updates
 
 <a name="configuring-sample-to-use-Azure-AD-tenant"></a>
 ### Step 3:  Configure the sample to use your Azure AD tenant
@@ -74,7 +83,6 @@ Open the solution in Visual Studio to configure the projects.
 1. In the *console-csharp-connect-sample* folder, rename the `appsettings.json.example` file to `appsettings.json`
 1. Open and edit the `appsettings.json` file to make the following change
     1. Find the line where `ClientId` is set as `YOUR_CLIENT_ID_HERE` and replace the existing value with the application (client) ID of the `Console App for Microsoft Graph` application copied from the Azure portal.
- ![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/ID.png)
 
 <a name="build-and-run-sample"></a>
 ### Step 4: Build and run the sample 
