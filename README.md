@@ -52,8 +52,7 @@ From your shell or command line:
    - In the **Supported account types** section, select **Accounts in any organizational directory and personal Microsoft accounts (e.g. Skype, Xbox, Outlook.com)**.
    - Select **Register** to create the application.
 3. On the app **Overview** page, find the **Application (client) ID** value and record it for later. You'll need it to configure the Visual Studio configuration file for this project.
-4. In the list of pages for the app, select **Authentication**
-<<<<<<< HEAD
+4. In the list of pages for the app, select **Authentication*
 
     - Use *urn:ietf:wg:oauth:2.0:oob* in the **Redirect URI** text box and select the **Type** as Public Client (mobile and desktop)
 ![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/redirect.png)
