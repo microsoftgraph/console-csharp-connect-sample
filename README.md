@@ -44,11 +44,8 @@ From your shell or command line:
 3. In the left-hand navigation pane, select the **Azure Active Directory** service, and then select **App registrations (Preview)**.
 
 #### Register the client app
-<<<<<<< HEAD
-
 ![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/registrations.png)
 1. In **App registrations** page, select **Register an Application**.
-=======
 1. In **App registrations (Preview)** page, select **Register an Application**.
 >>>>>>> parent of c529b59... updates
 2. When the **Register an application page** appears, enter your application's registration information:
@@ -61,7 +58,6 @@ From your shell or command line:
 
     - Use *urn:ietf:wg:oauth:2.0:oob* in the **Redirect URI** text box and select the **Type** as Public Client (mobile and desktop)
 ![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/redirect.png)
-=======
    - In the *Suggested Redirect URIs for public clients(mobile,desktop)*, check the second box so that the app can work with the MSAL libs used in the application. (The box should contain the option *urn:ietf:wg:oauth:2.0:oob*). 
 5. In the list of pages for the app, select **API permissions**
    - Click the **Add a permission** button and then,
@@ -69,7 +65,6 @@ From your shell or command line:
    - In the *Commonly used Microsoft APIs* section, click on **Microsoft Graph**.
    - In the **Delegated permissions** section, ensure that the right permissions are checked: **User.Read**, **Mail.Send** and **Files.ReadWrite**. Use the search box if necessary.
    - Select the **Add permissions** button.
->>>>>>> parent of c529b59... updates
 
 <a name="configuring-sample-to-use-Azure-AD-tenant"></a>
 ### Step 3:  Configure the sample to use your Azure AD tenant
