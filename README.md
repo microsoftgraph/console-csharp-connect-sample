@@ -47,7 +47,6 @@ From your shell or command line:
 ![](https://github.com/nicolesigei/console-csharp-connect-sample/blob/master/readme-images/registrations.png)
 1. In **App registrations** page, select **Register an Application**.
 1. In **App registrations (Preview)** page, select **Register an Application**.
->>>>>>> parent of c529b59... updates
 2. When the **Register an application page** appears, enter your application's registration information:
    - In the **Name** section, enter a meaningful application name that will be displayed to users of the app, for example `Console App for Microsoft Graph`
    - In the **Supported account types** section, select **Accounts in any organizational directory and personal Microsoft accounts (e.g. Skype, Xbox, Outlook.com)**.
