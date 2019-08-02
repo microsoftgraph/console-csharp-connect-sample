@@ -1,3 +1,20 @@
+---
+page_type: sample
+products:
+- office-outlook
+- ms-graph
+languages:
+- csharp
+extensions:
+  contentType: samples
+  technologies:
+  - Microsoft Graph
+  - Microsoft identity platform
+  services:
+  - Microsoft identity platform
+  - Outlook
+  createdDate: 12/11/2017 1:55:47 PM
+---
 # Microsoft Graph C# Console Connect Sample
 
 ## Table of contents
