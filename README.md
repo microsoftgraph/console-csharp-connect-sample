@@ -8,7 +8,7 @@ languages:
 extensions:
   contentType: samples
   technologies:
-  - Microsoft Graph
+  - Microsoft Graph 
   - Microsoft identity platform
   services:
   - Microsoft identity platform
