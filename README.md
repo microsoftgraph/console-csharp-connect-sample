@@ -5,6 +5,7 @@ products:
 - ms-graph
 languages:
 - csharp
+description: "This sample shows how to connect a Windows console application to a Microsoft work or school (Azure Active Directory) or personal (Microsoft) account using the Microsoft Graph API to send an email. "
 extensions:
   contentType: samples
   technologies:
