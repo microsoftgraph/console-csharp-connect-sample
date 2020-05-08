@@ -1,22 +1,10 @@
----
-page_type: sample
-products:
-- office-outlook
-- ms-graph
-languages:
-- csharp
-description: "This sample shows how to connect a Windows console application to a Microsoft work or school (Azure Active Directory) or personal (Microsoft) account using the Microsoft Graph API to send an email. "
-extensions:
-  contentType: samples
-  technologies:
-  - Microsoft Graph 
-  - Microsoft identity platform
-  services:
-  - Microsoft identity platform
-  - Outlook
-  createdDate: 12/11/2017 1:55:47 PM
----
-# Microsoft Graph C# Console Connect Sample
+# [ARCHIVED] Microsoft Graph C# Console Connect Sample
+
+## IMPORTANT
+
+**This project is being archived and replaced with the [Build .NET Core apps with the Microsoft Graph SDK training](https://github.com/microsoftgraph/msgraph-training-dotnet-core). As part of the archival process, we're closing all open issues and pull requests.**
+
+**You can continue to use this sample "as-is", but it won't be maintained moving forward. We apologize for any inconvenience.**
 
 ## Table of contents
 
